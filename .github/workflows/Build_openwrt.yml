@@ -54,7 +54,7 @@ jobs:
         
     - name: Clone source code
       env: 
-        REPO_URL: https://github.com/Lawlor123/openwrt-22.03.git
+        REPO_URL: https://github.com/Lawlor123/openwrt-22.03
         REPO_BRANCH: main
       run: |
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
@@ -102,19 +102,9 @@ jobs:
      # if: github.event_name == 'workflow_dispatch' # 可以限制只有手动触发时才发布 Release，或者去掉这行
       with:
         files: openwrt/bin/targets/*/*/*   # 根据你编译生成的固件具体路径调整通配符
-        name: OpenWrt 25.12 ${{ env.BUILD_DATE }}
+        name: OpenWrt 22.03 ${{ env.BUILD_DATE }}
         tag_name: v${{ env.BUILD_DATE }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Send Telegram Notification
-      uses: appleboy/telegram-action@master
-      with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: |
-          🎉 OpenWrt 25.12 固件编译成功！
-          仓库: ${{ github.repository }}
-          分支: ${{ github.ref_name }}
-          触发人: ${{ github.actor }}
+
         
